@@ -1,3 +1,6 @@
+// ضع رقم الواتساب الخاص بك هنا بالصيغة الدولية (بدون +)
+const MY_WHATSAPP_NUMBER = "01229430939"; 
+
 // التحكم في اختيار المحافظة والبوابة الجغرافية
 function handleGovernorateChange() {
     const gov = document.getElementById('governorate').value;
@@ -23,39 +26,48 @@ function handleGovernorateChange() {
     }
 }
 
-// معالجة الإرسال البرمجي مع تمرير Public Key بشكل صريح
+// معالجة الإرسال عبر الواتساب المباشر
 document.getElementById('evaluationForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
     const submitBtn = document.getElementById('submitBtn');
-    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري إرسال التقييم لبريدك الإلكتروني...';
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التحويل للواتساب...';
     submitBtn.disabled = true;
 
-    // حساب الدرجة الإجمالية
+    // 1. حساب الدرجة الإجمالية
     let objectiveScore = 0;
     for (let i = 1; i <= 7; i++) {
         objectiveScore += parseInt(document.getElementById('q' + i).value);
     }
     const totalScore = objectiveScore + 30;
 
-    // البيانات الموجهة للقالب
-    const templateParams = {
-        user_name: document.getElementById('evaluatorName').value,
-        governorate: document.getElementById('governorate').value,
-        total_score: totalScore + ' / 100',
-        essay_feedback: document.getElementById('personalMessage').value
-    };
+    // 2. تجميع البيانات
+    const evaluatorName = document.getElementById('evaluatorName').value;
+    const governorate = document.getElementById('governorate').value;
+    const personalMessage = document.getElementById('personalMessage').value;
 
-    // الإرسال مع المتابعة الدقيقة
-    emailjs.send('service_ml50ldw', 'template_13w7co5', templateParams, 'Hvw5Pxh1-JAOlaVMk')
-        .then(function(response) {
-            document.getElementById('evaluationArea').classList.add('hidden');
-            document.getElementById('successCard').classList.remove('hidden');
-            if (navigator.vibrate) navigator.vibrate([50, 100, 150]);
-        }, function(error) {
-            console.error('EmailJS Error Detail:', error);
-            alert('حدث خطأ أثناء الاتصال، يرجى إعادة المحاولة.');
-            submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> اعتماد الدرجة وإرسال التقييم';
-            submitBtn.disabled = false;
-        });
+    // 3. صياغة نص الرسالة المنسقة للواتساب
+    const whatsappMessage = `*تقييم جديد من منصة التقييم القيادي 2026* 🎓%0A%0A` +
+        `👤 *الاسم/الصفة:* ${encodeURIComponent(evaluatorName)}%0A` +
+        `📍 *المحافظة:* ${encodeURIComponent(governorate)}%0A` +
+        `📊 *الدرجة الكلية:* ${totalScore} / 100%0A%0A` +
+        `💬 *الرسالة الشخصية:*%0A${encodeURIComponent(personalMessage)}`;
+
+    // 4. إنشاء رابط الواتساب المباشر
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${MY_WHATSAPP_NUMBER}&text=${whatsappMessage}`;
+
+    // 5. إظهار شاشة النجاح وفتح الواتساب
+    setTimeout(() => {
+        document.getElementById('evaluationArea').classList.add('hidden');
+        document.getElementById('successCard').classList.remove('hidden');
+        
+        if (navigator.vibrate) navigator.vibrate([50, 100, 150]);
+
+        // فتح محادثة الواتساب في نافذة جديدة
+        window.open(whatsappUrl, '_blank');
+        
+        // إعادة زر الإرسال لوضعه الطبيعي
+        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> اعتماد الدرجة وإرسال التقييم';
+        submitBtn.disabled = false;
+    }, 800);
 });
