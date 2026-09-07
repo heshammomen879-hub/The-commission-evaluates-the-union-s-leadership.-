@@ -1,54 +1,62 @@
-// التحكم في اختيار المحافظة وإظهار قسم التقييم
+// التحكم في اختيار المحافظة والبوابة الجغرافية
 function handleGovernorateChange() {
     const gov = document.getElementById('governorate').value;
     const alertBox = document.getElementById('alertBox');
-    const evaluationSection = document.getElementById('evaluationSection');
-    const successBox = document.getElementById('successBox');
+    const evaluationArea = document.getElementById('evaluationArea');
+    const successCard = document.getElementById('successCard');
 
-    successBox.classList.add('hidden');
+    successCard.classList.add('hidden');
 
     if (gov === 'كفر الشيخ') {
-        alertBox.style.display = 'none';
-        evaluationSection.classList.remove('hidden');
+        alertBox.classList.add('hidden');
+        evaluationArea.classList.remove('hidden');
+        
+        // اهتزاز تفاعلي للهواتف عند النجاح
+        if (navigator.vibrate) navigator.vibrate(50);
     } else if (gov !== '') {
-        alertBox.style.display = 'block';
-        evaluationSection.classList.add('hidden');
+        alertBox.classList.remove('hidden');
+        evaluationArea.classList.add('hidden');
+        
+        // اهتزاز تنبيهي للهواتف عند الخلل
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
     } else {
-        alertBox.style.display = 'none';
-        evaluationSection.classList.add('hidden');
+        alertBox.classList.add('hidden');
+        evaluationArea.classList.add('hidden');
     }
 }
 
-// معالجة إرسال النموذج والربط بـ EmailJS
+// معالجة الإرسال البرمجي عبر EmailJS بمفاتيحك الخاصة
 document.getElementById('evaluationForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
+
     const submitBtn = document.getElementById('submitBtn');
-    submitBtn.innerText = "جاري الإرسال...";
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري إرسال التقييم لبريدك الإلكتروني...';
     submitBtn.disabled = true;
 
-    // حساب الدرجة الكلية (80 اختيار من متعدد + 20 درجة للمقال)
-    const q1 = parseInt(document.getElementById('q1').value);
-    const q2 = parseInt(document.getElementById('q2').value);
-    const q3 = parseInt(document.getElementById('q3').value);
-    const q4 = parseInt(document.getElementById('q4').value);
-    const totalScore = q1 + q2 + q3 + q4 + 20;
+    // حساب الدرجة الإجمالية (الأسئلة الـ 7 = 70 درجة + 30 درجة للرسالة المقالية)
+    let objectiveScore = 0;
+    for (let i = 1; i <= 7; i++) {
+        objectiveScore += parseInt(document.getElementById('q' + i).value);
+    }
+    const totalScore = objectiveScore + 30; // الدرجة النهائية من 100
 
+    // تجهيز البيانات الموجهة إلى إيميلك المعتمد
     const templateParams = {
         user_name: document.getElementById('evaluatorName').value,
         governorate: document.getElementById('governorate').value,
         total_score: totalScore + ' / 100',
-        essay_feedback: document.getElementById('essay').value
+        essay_feedback: document.getElementById('personalMessage').value
     };
 
-    // الإرسال المباشر باستخدام المفاتيح المؤكدة
+    // الإرسال المباشر للخدمة والقالب المعتمدين لحسابك
     emailjs.send('service_ml50ldw', 'template_13w7co5', templateParams)
         .then(function(response) {
-            document.getElementById('evaluationSection').classList.add('hidden');
-            document.getElementById('successBox').classList.remove('hidden');
+            document.getElementById('evaluationArea').classList.add('hidden');
+            document.getElementById('successCard').classList.remove('hidden');
+            if (navigator.vibrate) navigator.vibrate([50, 100, 150]);
         }, function(error) {
-            alert('حدث خطأ أثناء الإرسال، يرجى إعادة المحاولة.');
-            submitBtn.innerText = "إرسال التقييم واعتماد الدرجة";
+            alert('حدث خطأ أثناء الاتصال، يرجى إعادة المحاولة.');
+            submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> اعتماد الدرجة وإرسال التقييم';
             submitBtn.disabled = false;
         });
 });
