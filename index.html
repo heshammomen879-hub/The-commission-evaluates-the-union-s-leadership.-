@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق تقييم القيادات التعليمية 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("YOUR_PUBLIC_KEY"); // أدخل الـ Public Key الخاص بك هنا
+        })();
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <span class="badge">جمهورية مصر العربية - وزارة التربية والتعليم</span>
+        <h2>منصة تقييم القيادات الطلابية 2026</h2>
+        <p>يرجى اختيار المحافظة للبدء في نموذج التقييم </p>
+    </div>
+
+    <!-- بوابة اختيار المحافظة -->
+    <div class="form-group">
+        <label for="governorate">اختر المحافظة أولاً:</label>
+        <select id="governorate" onchange="handleGovernorateChange()">
+            <option value="">-- اختر المحافظة --</option>
+            <option value="كفر الشيخ">كفر الشيخ</option>
+            <option value="القاهرة">القاهرة</option>
+            <option value="الإسكندرية">الإسكندرية</option>
+            <option value="الدقهلية">الدقهلية</option>
+            <option value="الغربية">الغربية</option>
+            <option value="أخرى">محافظة أخرى</option>
+        </select>
+    </div>
+
+    <!-- رسالة الخطأ الجغرافي -->
+    <div id="alertBox" class="alert alert-error">
+        هذه ليست نسخة محافظتك اختر محافظتك الصحيحة
+    </div>
+
+    <!-- قسم التقييم والملف الشخصي (يظهر فقط بعد اختيار كفر الشيخ) -->
+    <div id="evaluationSection" class="hidden">
+        
+        <!-- كارت التعريف الشخصي والصورة -->
+        <div class="profile-card">
+            <img src="Https://i.postimg.cc/fRXFGDHH/IMG-20260415-WA0029(1).jpg" alt="مؤمن القصاص" class="profile-img">
+            <div class="profile-info">
+                <h3>مؤمن هشام سعد القصاص</h3>
+                <span class="profile-tag">ممثل اتحاد جمهورية مصر العربية</span>
+                <ul>
+                    <li>عضو مجلس اتحاد مديرية التربية والتعليم بكفر الشيخ</li>
+                    <li>أمين اتحاد مدارس إدارة سيدي سالم التعليمية</li>
+                    <li>رئيس غرفة عمليات الثانوية العامة والممثل الرسمي عن طلاب الإدارة</li>
+                    <li>المبتكر للمرحلة الثانوية</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- استمارة التقييم -->
+        <form id="evaluationForm">
+            <div class="form-group">
+                <label for="evaluatorName">اسم المقيّم / الصفة:</label>
+                <input type="text" id="evaluatorName" required placeholder="أدخل اسمك أو صفتك التعليمية">
+            </div>
+
+            <!-- الأسئلة الموضوعية (80 درجة) -->
+            <div class="quiz-group">
+                <label>1. التواصل المباشر وحل مشكلات الطلاب (20 درجة):</label>
+                <select id="q1" required>
+                    <option value="20">ممتاز (20/20) - استجابة سريعة وتواصل فعال</option>
+                    <option value="15">جيد جداً (15/20) - أداء ممتاز</option>
+                    <option value="10">جيد (10/20) - أداء متوسط</option>
+                </select>
+            </div>
+
+            <div class="quiz-group">
+                <label>2. إدارة غرف العمليات والأزمات (20 درجة):</label>
+                <select id="q2" required>
+                    <option value="20">ممتاز (20/20) - تنظيم حاسم وتنسيق عالي</option>
+                    <option value="15">جيد جداً (15/20) - أداء قوي</option>
+                    <option value="10">جيد (10/20) - أداء مقبول</option>
+                </select>
+            </div>
+
+            <div class="quiz-group">
+                <label>3. دعم الابتكارات والمبادرات الطلابية (20 درجة):</label>
+                <select id="q3" required>
+                    <option value="20">ممتاز (20/20) - دعم مستمر وأفكار إبداعية</option>
+                    <option value="15">جيد جداً (15/20) - تشجيع ملموس</option>
+                    <option value="10">جيد (10/20) - دعم عادي</option>
+                </select>
+            </div>
+
+            <div class="quiz-group">
+                <label>4. التمثيل الرسمي للطلاب في المحافل (20 درجة):</label>
+                <select id="q4" required>
+                    <option value="20">ممتاز (20/20) - تمثيل مشرف ونقل صادق لصوت الطلاب</option>
+                    <option value="15">جيد جداً (15/20) - تمثيل فعال</option>
+                    <option value="10">جيد (10/20) - تمثيل مقبول</option>
+                </select>
+            </div>
+
+            <!-- التقييم المقالي (20 درجة) -->
+            <div class="form-group">
+                <label for="essay">5. التقييم المقالي والحلول الإبداعية (20 درجة):</label>
+                <textarea id="essay" rows="4" placeholder="اكتب رأيك الشخصي واقتراحاتك للتحسين..." required></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn">إرسال التقييم واعتماد الدرجة</button>
+        </form>
+    </div>
+
+    <div id="successBox" class="alert alert-success hidden">
+        تم إرسال التقييم واعتماده بنجاح! شكراً لمشاركتك.
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
