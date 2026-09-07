@@ -3,121 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق تقييم القيادات التعليمية 2026</title>
+    <title>منصة التقييم القيادي والابتكاري 2026 - مؤمن القصاص</title>
+    
+    <!-- خطوط جوجل الاحترافية (Cairo & Tajawal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- مكتبة الأيقونات الملونة والمتحركة FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="stylesheet" href="style.css">
-    <!-- EmailJS SDK -->
+
+    <!-- EmailJS SDK مع تفعيل المفتاح العام المباشر -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
-            emailjs.init("YOUR_PUBLIC_KEY"); // أدخل الـ Public Key الخاص بك هنا
+            emailjs.init("service_ml50ldw"); 
         })();
     </script>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <span class="badge">جمهورية مصر العربية - وزارة التربية والتعليم</span>
-        <h2>منصة تقييم القيادات الطلابية 2026</h2>
-        <p>يرجى اختيار المحافظة للبدء في نموذج التقييم </p>
+    <!-- الخلفية التفاعلية مع الفقاعات العائمة -->
+    <div class="background-animation">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
     </div>
 
-    <!-- بوابة اختيار المحافظة -->
-    <div class="form-group">
-        <label for="governorate">اختر المحافظة أولاً:</label>
-        <select id="governorate" onchange="handleGovernorateChange()">
-            <option value="">-- اختر المحافظة --</option>
-            <option value="كفر الشيخ">كفر الشيخ</option>
-            <option value="القاهرة">القاهرة</option>
-            <option value="الإسكندرية">الإسكندرية</option>
-            <option value="الدقهلية">الدقهلية</option>
-            <option value="الغربية">الغربية</option>
-            <option value="أخرى">محافظة أخرى</option>
-        </select>
-    </div>
+    <div class="main-wrapper">
+        <!-- الهيدر والترويسة -->
+        <header class="hero-header">
+            <div class="logo-badge pulse-glow">
+                <i class="fa-solid fa-graduation-cap fa-spin-pulse"></i>
+                <span>جمهورية مصر العربية - وزارة التربية والتعليم</span>
+            </div>
+            <h1 class="glowing-text">منصة التقييم القيادي والابتكاري 2026</h1>
+            <p class="subtitle">النموذج المعتمد لتقييم ممثلي اتحاد الطلاب وقيادات المستقبل</p>
+        </header>
 
-    <!-- رسالة الخطأ الجغرافي -->
-    <div id="alertBox" class="alert alert-error">
-        هذه ليست نسخة محافظتك اختر محافظتك الصحيحة
-    </div>
-
-    <!-- قسم التقييم والملف الشخصي (يظهر فقط بعد اختيار كفر الشيخ) -->
-    <div id="evaluationSection" class="hidden">
-        
-        <!-- كارت التعريف الشخصي والصورة -->
-        <div class="profile-card">
-            <img src="Https://i.postimg.cc/fRXFGDHH/IMG-20260415-WA0029(1).jpg" alt="مؤمن القصاص" class="profile-img">
-            <div class="profile-info">
-                <h3>مؤمن هشام سعد القصاص</h3>
-                <span class="profile-tag">ممثل اتحاد جمهورية مصر العربية</span>
-                <ul>
-                    <li>عضو مجلس اتحاد مديرية التربية والتعليم بكفر الشيخ</li>
-                    <li>أمين اتحاد مدارس إدارة سيدي سالم التعليمية</li>
-                    <li>رئيس غرفة عمليات الثانوية العامة والممثل الرسمي عن طلاب الإدارة</li>
-                    <li>المبتكر للمرحلة الثانوية</li>
-                </ul>
+        <!-- خطوة اختيار المحافظة -->
+        <div class="glass-card gatekeeper-card">
+            <label for="governorate" class="label-title">
+                <i class="fa-solid fa-map-location-dot icon-bounce"></i> حدد محافظتك للبدء:
+            </label>
+            <div class="custom-select-wrapper">
+                <select id="governorate" onchange="handleGovernorateChange()">
+                    <option value="">-- اضغط لاختيار المحافظة --</option>
+                    <option value="كفر الشيخ">محافظة كفر الشيخ</option>
+                    <option value="القاهرة">محافظة القاهرة</option>
+                    <option value="الإسكندرية">محافظة الإسكندرية</option>
+                    <option value="الدقهلية">محافظة الدقهلية</option>
+                    <option value="الغربية">محافظة الغربية</option>
+                    <option value="أخرى">محافظة أخرى</option>
+                </select>
+                <i class="fa-solid fa-chevron-down select-arrow"></i>
             </div>
         </div>
 
-        <!-- استمارة التقييم -->
-        <form id="evaluationForm">
-            <div class="form-group">
-                <label for="evaluatorName">اسم المقيّم / الصفة:</label>
-                <input type="text" id="evaluatorName" required placeholder="أدخل اسمك أو صفتك التعليمية">
+        <!-- تنبيه البوابة الجغرافية -->
+        <div id="alertBox" class="alert-card alert-error hidden shake-animation">
+            <i class="fa-solid fa-triangle-exclamation fa-beat"></i>
+            <span>هذه ليست نسخة محافظتك، اختر محافظتك الصحيحة للدخول.</span>
+        </div>
+
+        <!-- منطقة التقييم الكاملة (تظهر فقط لكفر الشيخ) -->
+        <div id="evaluationArea" class="hidden slide-up-fade">
+            
+            <!-- كارت التعريف الشخصي الفاخر -->
+            <div class="profile-hero-card">
+                <div class="avatar-container">
+                    <img src="https://i.postimg.cc/fRXFGDHH/IMG-20260415-WA0029(1).jpg" alt="مؤمن القصاص" class="profile-avatar">
+                    <div class="online-indicator"></div>
+                </div>
+                <div class="profile-details">
+                    <h2 class="leader-name">مؤمن هشام سعد القصاص</h2>
+                    <span class="leader-tag"><i class="fa-solid fa-award"></i> ممثل اتحاد جمهورية مصر العربية</span>
+                    <ul class="role-badges">
+                        <li><i class="fa-solid fa-building-columns"></i> عضو مجلس اتحاد مديرية التربية والتعليم بكفر الشيخ</li>
+                        <li><i class="fa-solid fa-sitemap"></i> أمين اتحاد مدارس إدارة سيدي سالم التعليمية</li>
+                        <li><i class="fa-solid fa-headset"></i> رئيس غرفة عمليات الثانوية العامة والناطق الرسمي</li>
+                        <li><i class="fa-solid fa-lightbulb"></i> المبتكر والمطور للمرحلة الثانوية</li>
+                    </ul>
+                </div>
             </div>
 
-            <!-- الأسئلة الموضوعية (80 درجة) -->
-            <div class="quiz-group">
-                <label>1. التواصل المباشر وحل مشكلات الطلاب (20 درجة):</label>
-                <select id="q1" required>
-                    <option value="20">ممتاز (20/20) - استجابة سريعة وتواصل فعال</option>
-                    <option value="15">جيد جداً (15/20) - أداء ممتاز</option>
-                    <option value="10">جيد (10/20) - أداء متوسط</option>
-                </select>
-            </div>
+            <!-- نموذج الأسئلة التفاعلي -->
+            <form id="evaluationForm" class="glass-card form-card">
+                <div class="section-divider">
+                    <i class="fa-solid fa-clipboard-check"></i>
+                    <span>بيانات المقيّم الأساسية</span>
+                </div>
 
-            <div class="quiz-group">
-                <label>2. إدارة غرف العمليات والأزمات (20 درجة):</label>
-                <select id="q2" required>
-                    <option value="20">ممتاز (20/20) - تنظيم حاسم وتنسيق عالي</option>
-                    <option value="15">جيد جداً (15/20) - أداء قوي</option>
-                    <option value="10">جيد (10/20) - أداء مقبول</option>
-                </select>
-            </div>
+                <div class="input-group">
+                    <label for="evaluatorName"><i class="fa-solid fa-user-pen"></i> الاسم الكامل أو الصفة التعليمية:</label>
+                    <input type="text" id="evaluatorName" required placeholder="أدخل اسمك الكريم أو صفك الدراسي/الوظيفي">
+                </div>
 
-            <div class="quiz-group">
-                <label>3. دعم الابتكارات والمبادرات الطلابية (20 درجة):</label>
-                <select id="q3" required>
-                    <option value="20">ممتاز (20/20) - دعم مستمر وأفكار إبداعية</option>
-                    <option value="15">جيد جداً (15/20) - تشجيع ملموس</option>
-                    <option value="10">جيد (10/20) - دعم عادي</option>
-                </select>
-            </div>
+                <div class="section-divider">
+                    <i class="fa-solid fa-star-half-stroke"></i>
+                    <span>محاور التقييم الموضوعي (70 درجة)</span>
+                </div>
 
-            <div class="quiz-group">
-                <label>4. التمثيل الرسمي للطلاب في المحافل (20 درجة):</label>
-                <select id="q4" required>
-                    <option value="20">ممتاز (20/20) - تمثيل مشرف ونقل صادق لصوت الطلاب</option>
-                    <option value="15">جيد جداً (15/20) - تمثيل فعال</option>
-                    <option value="10">جيد (10/20) - تمثيل مقبول</option>
-                </select>
-            </div>
+                <!-- الأسئلة الـ 7 -->
+                <div class="q-grid">
+                    <div class="q-card">
+                        <label><i class="fa-solid fa-comments"></i> 1. التواصل والتفاعل المباشر (10 درجات):</label>
+                        <select id="q1" class="q-select" required>
+                            <option value="10">ممتاز (10/10) - تواصل دائم واستجابة فورية</option>
+                            <option value="8">جيد جداً (8/10) - استجابة قوية ومستمرة</option>
+                            <option value="5">مقبول (5/10) - تواصل متوسط</option>
+                        </select>
+                    </div>
 
-            <!-- التقييم المقالي (20 درجة) -->
-            <div class="form-group">
-                <label for="essay">5. التقييم المقالي والحلول الإبداعية (20 درجة):</label>
-                <textarea id="essay" rows="4" placeholder="اكتب رأيك الشخصي واقتراحاتك للتحسين..." required></textarea>
-            </div>
+                    <div class="q-card">
+                        <label><i class="fa-solid fa-shield-halved"></i> 2. كفاءة إدارة الأزمات وغرفة العمليات (10 درجات):</label>
+                        <select id="q2" class="q-select" required>
+                            <option value="10">ممتاز (10/10) - تنظيم حاسم وحل سريع للمشكلات</option>
+                            <option value="8">جيد جداً (8/10) - أداء رائع في التنظيم</option>
+                            <option value="5">مقبول (5/10) - أداء عادي</option>
+                        </select>
+                    </div>
 
-            <button type="submit" id="submitBtn">إرسال التقييم واعتماد الدرجة</button>
-        </form>
+                    <div class="q-card">
+                        <label><i class="fa-solid fa-rocket"></i> 3. تشجيع المبادرات والحلول الابتكارية (10 درجات):</label>
+                        <select id="q3" class="q-select" required>
+                            <option value="10">ممتاز (10/10) - دعم استثنائي للابتكار والتطوير</option>
+                            <option value="8">جيد جداً (8/10) - تشجيع فعال وملموس</option>
+                            <option value="5">مقبول (5/10) - دعم تقليدي</option>
+                        </select>
+                    </div>
+
+                    <div class="q-card">
+                        <label><i class="fa-solid fa-microphone"></i> 4. قوة التمثيل القيادي ونقل صوت الطلاب (10 درجات):</label>
+                        <select id="q4" class="q-select" required>
+                            <option value="10">ممتاز (10/10) - تمثيل مشرف ونقل واقعي ومباشر</option>
+                            <option value="8">جيد جداً (8/10) - أداء قيادي مميز</option>
+                            <option value="5">مقبول (5/10) - تمثيل عادي</option>
+                        </select>
+                    </div>
+
+                    <div class="q-card">
+                        <label><i class="fa-solid fa-users-gear"></i> 5. روح العمل الجماعي والقيادة التشاركية (10 درجات):</label>
+                        <select id="q5" class="q-select" required>
+                            <option value="10">ممتاز (10/10) - توحيد الفريق وتحفيز الجميع</option>
+                            <option value="8">جيد جداً (8/10) - تعاون فعال مع زملائه</option>
+                            <option value="5">مقبول (5/10) - أداء مقبول</option>
+                        </select>
+                    </div>
+
+                    <div class="q-card">
+                        <label><i class="fa-solid fa-clock-rotate-left"></i> 6. السرعة والانضباط في تنفيذ التكاليف (10 درجات):</label>
+                        <select id="q6" class="q-select" required>
+                            <option value="10">ممتاز (10/10) - دقة عالية وانضباط تام بالأوقات</option>
+                            <option value="8">جيد جداً (8/10) - انضباط ممتاز</option>
+                            <option value="5">مقبول (5/10) - انضباط متوسط</option>
+                        </select>
+                    </div>
+
+                    <div class="q-card">
+                        <label><i class="fa-solid fa-bullseye"></i> 7. التأثير الإيجابي والتطوير الملموس (10 درجات):</label>
+                        <select id="q7" class="q-select" required>
+                            <option value="10">ممتاز (10/10) - أثر واضح وتغيير إيجابي ملموس</option>
+                            <option value="8">جيد جداً (8/10) - تأثير جيد</option>
+                            <option value="5">مقبول (5/10) - تأثير محدود</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-divider">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                    <span>الرسالة الشخصية والمقالية (30 درجة)</span>
+                </div>
+
+                <div class="input-group">
+                    <label for="personalMessage"><i class="fa-solid fa-heart"></i> وجه رسالتك الشخصية المباشرة إلى مؤمن القصاص:</label>
+                    <textarea id="personalMessage" rows="4" placeholder="اكتب نصيحتك، رسالتك الشخصية، أو اقتراحاتك لتطوير العمل القيادي..." required></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn" class="glow-button">
+                    <i class="fa-solid fa-paper-plane pulse-icon"></i> اعتماد الدرجة وإرسال التقييم
+                </button>
+            </form>
+        </div>
+
+        <!-- شاشة النجاح والاعتماد -->
+        <div id="successCard" class="glass-card success-card hidden zoom-in">
+            <div class="success-icon-wrap">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <h2>تم اعتماد تقييمك وإرساله بنجاح!</h2>
+            <p>تم تسليم النتيجة والرسالة الشخصية مباشرة إلى الإيميل الخاص بالمستهدف.</p>
+        </div>
     </div>
 
-    <div id="successBox" class="alert alert-success hidden">
-        تم إرسال التقييم واعتماده بنجاح! شكراً لمشاركتك.
-    </div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
