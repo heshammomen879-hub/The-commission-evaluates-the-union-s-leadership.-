@@ -11,13 +11,11 @@ function handleGovernorateChange() {
         alertBox.classList.add('hidden');
         evaluationArea.classList.remove('hidden');
         
-        // اهتزاز تفاعلي للهواتف عند النجاح
         if (navigator.vibrate) navigator.vibrate(50);
     } else if (gov !== '') {
         alertBox.classList.remove('hidden');
         evaluationArea.classList.add('hidden');
         
-        // اهتزاز تنبيهي للهواتف عند الخلل
         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
     } else {
         alertBox.classList.add('hidden');
@@ -25,7 +23,7 @@ function handleGovernorateChange() {
     }
 }
 
-// معالجة الإرسال البرمجي عبر EmailJS بمفاتيحك الخاصة
+// معالجة الإرسال البرمجي مع تمرير Public Key بشكل صريح
 document.getElementById('evaluationForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -33,14 +31,14 @@ document.getElementById('evaluationForm').addEventListener('submit', function(e)
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري إرسال التقييم لبريدك الإلكتروني...';
     submitBtn.disabled = true;
 
-    // حساب الدرجة الإجمالية (الأسئلة الـ 7 = 70 درجة + 30 درجة للرسالة المقالية)
+    // حساب الدرجة الإجمالية
     let objectiveScore = 0;
     for (let i = 1; i <= 7; i++) {
         objectiveScore += parseInt(document.getElementById('q' + i).value);
     }
-    const totalScore = objectiveScore + 30; // الدرجة النهائية من 100
+    const totalScore = objectiveScore + 30;
 
-    // تجهيز البيانات الموجهة إلى إيميلك المعتمد
+    // البيانات الموجهة للقالب
     const templateParams = {
         user_name: document.getElementById('evaluatorName').value,
         governorate: document.getElementById('governorate').value,
@@ -48,13 +46,14 @@ document.getElementById('evaluationForm').addEventListener('submit', function(e)
         essay_feedback: document.getElementById('personalMessage').value
     };
 
-    // الإرسال المباشر للخدمة والقالب المعتمدين لحسابك
-    emailjs.send('service_ml50ldw', 'template_13w7co5', templateParams)
+    // الإرسال مع المتابعة الدقيقة
+    emailjs.send('service_ml50ldw', 'template_13w7co5', templateParams, 'Hvw5Pxh1-JAOlaVMk')
         .then(function(response) {
             document.getElementById('evaluationArea').classList.add('hidden');
             document.getElementById('successCard').classList.remove('hidden');
             if (navigator.vibrate) navigator.vibrate([50, 100, 150]);
         }, function(error) {
+            console.error('EmailJS Error Detail:', error);
             alert('حدث خطأ أثناء الاتصال، يرجى إعادة المحاولة.');
             submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> اعتماد الدرجة وإرسال التقييم';
             submitBtn.disabled = false;
